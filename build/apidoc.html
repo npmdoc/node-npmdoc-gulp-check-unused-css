@@ -61,12 +61,150 @@
 
     <li class="apidocModuleLi"><a href="#apidoc.module.gulp-check-unused-css">module gulp-check-unused-css</a><ol>
 
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-check-unused-css.gulp-check-unused-css">
+            function <span class="apidocSignatureSpan"></span>gulp-check-unused-css
+            <span class="apidocSignatureSpan">( opts )</span>
+            </a>
+
+        </li>
+
     </ol></li>
 
 </ol></div>
 
 <div class="apidocSectionDiv">
 <h1><a href="#apidoc.module.gulp-check-unused-css" id="apidoc.module.gulp-check-unused-css">module gulp-check-unused-css</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-check-unused-css.gulp-check-unused-css" id="apidoc.element.gulp-check-unused-css.gulp-check-unused-css">
+        function <span class="apidocSignatureSpan"></span>gulp-check-unused-css
+        <span class="apidocSignatureSpan">( opts )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function checkCSS( opts ) {
+    &#x27;use strict&#x27;;
+
+    globals = [];
+    usedClasses = [];
+    definedClasses = [];
+
+    if ( typeof opts === &#x27;undefined&#x27; ) {
+        opts = {};
+    }
+
+    var error,
+        ignore = opts.ignore || false;
+
+    // import global classes
+    if ( opts.globals ) {
+        opts.globals.forEach( function( global ) {
+            if ( _.isString( global ) ) {
+                globals.push.apply( globals, require( &#x27;./global/&#x27; + global ) );
+            } else if ( _.isArray( global ) ) {
+                globals.push.apply( globals, global );
+            }
+        });
+        globals = _.sortBy( globals );
+    }
+
+    // create html parser
+    var htmlparser = new html.Parser({
+        onopentag: function onopentag( name, attribs ) {
+            var all = [];
+
+            all.push.apply( all, regularClass.collect( attribs, opts.angular ) );
+
+            if ( opts.angular ) {
+                all.push.apply( all, angularClass.collect( attribs ) );
+            }
+
+            _.each( all, function( usedClass ) {
+                if ( _.indexOf( usedClasses, usedClass ) === -1 ) {
+                    usedClasses.push( usedClass );
+                }
+            });
+        }
+    });
+
+    var transform = through.obj( function( file, enc, done ) {
+        var self = this;
+
+        if ( file.isNull() ) {
+            self.push( file );
+            return done();
+        }
+
+        if ( file.isStream()) {
+            return done( new gutil.PluginError( PLUGIN_NAME, &#x27;Streaming not supported&#x27; ) );
+        }
+
+        var ast;
+
+        // first try to parse css
+        try {
+            ast = css.parse( String( file.contents ), { silent: false } );
+            // find all classes in CSS
+            if ( ast.stylesheet ) {
+                ast.stylesheet.rules.forEach( getDefinedClasses( definedClasses ) );
+            }
+        } catch( ex ) {
+            // if it doesn&#x27;t work, put it into html parser
+            // this has to work because in worst case no onOpenTag will be triggered
+            htmlparser.write( String( file.contents ) );
+        }
+
+        // just emit the file for later use
+        self.push( file );
+        done();
+    });
+
+    // we have to wait until we received all files
+    // otherwise we would throw an error after the first one
+    transform.on( &#x27;finish&#x27;, function() {
+        var badHTML,
+            badCSS,
+            usedUndefined = [], // in HTML, but not in CSS
+            definedUnused = []; // in CSS, but not in HTML
+
+
+        definedUnused = _.difference( definedClasses, usedClasses );    // only in CSS
+        usedUndefined = _.difference( usedClasses, definedClasses );    // only in HTML
+
+        badHTML = _.filter( usedUndefined, filterIgnored( ignore ) );
+        badCSS =  _.filter( definedUnused, filterIgnored( ignore ) );
+
+        if ( definedClasses.length &#x26;&#x26; badCSS.length ) {
+            error = new Error( &#x27;Unused CSS classes&#x27;);
+            error.css = badCSS;
+        }
+        if ( usedClasses.length &#x26;&#x26; badHTML.length ) {
+            if ( !error ) {
+                error = new Error( &#x27;Undefined HTML classes&#x27; );
+            }
+            error.html = badHTML;
+        }
+
+        if ( error ) {
+            if ( error.css ) {
+                gutil.log.apply( gutil, [ gutil.colors.cyan( &#x27;Unused CSS classes&#x27; ), error.css.join( &#x27; &#x27; ) ] );
+            }
+            if ( error.html ) {
+                gutil.log.apply( gutil, [ gutil.colors.cyan( &#x27;Undefined HTML classes&#x27; ), error.html.join( &#x27; &#x27; ) ] );
+            }
+
+            this.emit( &#x27;error&#x27;, new gutil.PluginError( PLUGIN_NAME, error ) );
+        }
+    });
+
+    return transform;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
 
 </div>
 
