@@ -1,9 +1,14 @@
-# api documentation for  [gulp-check-unused-css (v2.1.3)](https://github.com/zalando/gulp-check-unused-css)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-check-unused-css.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-check-unused-css) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-check-unused-css.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-check-unused-css)
+# npmdoc-gulp-check-unused-css
+
+#### api documentation for  [gulp-check-unused-css (v2.1.3)](https://github.com/zalando/gulp-check-unused-css)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-check-unused-css.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-check-unused-css) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-check-unused-css.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-check-unused-css)
+
 #### Checks your CSS for unused classes in HTML templates
 
-[![NPM](https://nodei.co/npm/gulp-check-unused-css.png?downloads=true)](https://www.npmjs.com/package/gulp-check-unused-css)
+[![NPM](https://nodei.co/npm/gulp-check-unused-css.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/gulp-check-unused-css)
 
-[![apidoc](https://npmdoc.github.io/node-npmdoc-gulp-check-unused-css/build/screenCapture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-gulp-check-unused-css_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-gulp-check-unused-css/build/apidoc.html)
+- [https://npmdoc.github.io/node-npmdoc-gulp-check-unused-css/build/apidoc.html](https://npmdoc.github.io/node-npmdoc-gulp-check-unused-css/build/apidoc.html)
+
+[![apidoc](https://npmdoc.github.io/node-npmdoc-gulp-check-unused-css/build/screenCapture.buildCi.browser.%252Ftmp%252Fbuild%252Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-gulp-check-unused-css/build/apidoc.html)
 
 ![npmPackageListing](https://npmdoc.github.io/node-npmdoc-gulp-check-unused-css/build/screenCapture.npmPackageListing.svg)
 
@@ -17,8 +22,7 @@
 
 {
     "author": {
-        "name": "Nikolaus Piccolotto",
-        "email": "nikolaus.piccolotto@zalando.de"
+        "name": "Nikolaus Piccolotto"
     },
     "bugs": {
         "url": "https://github.com/zalando/gulp-check-unused-css/issues"
@@ -59,13 +63,11 @@
     "main": "src/check-css.js",
     "maintainers": [
         {
-            "name": "npiccolotto",
-            "email": "nikolaus.piccolotto@zalando.de"
+            "name": "npiccolotto"
         }
     ],
     "name": "gulp-check-unused-css",
     "optionalDependencies": {},
-    "readme": "ERROR: No README data found!",
     "repository": {
         "type": "git",
         "url": "git+ssh://git@github.com/zalando/gulp-check-unused-css.git"
@@ -76,16 +78,6 @@
     "version": "2.1.3"
 }
 ```
-
-
-
-# <a name="apidoc.tableOfContents"></a>[table of contents](#apidoc.tableOfContents)
-
-#### [module gulp-check-unused-css](#apidoc.module.gulp-check-unused-css)
-
-
-
-# <a name="apidoc.module.gulp-check-unused-css"></a>[module gulp-check-unused-css](#apidoc.module.gulp-check-unused-css)
 
 
 
